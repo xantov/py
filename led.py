@@ -1,10 +1,10 @@
-
+#Create 7x5 LED Matrix Numbers
 import os
 from termcolor import colored
 os.system('color')
 
 num     = str(input('Input your numbers (0-9): '))
-number = []
+number  = []
 for n in num:
     if n in ['0','1','2','3','4','5','6','7','8','9']:
         number.append(n)
@@ -34,7 +34,6 @@ led     = [
         [[0,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,1],[0,0,0,0,1],[0,0,0,1,0],[0,1,1,0,0]] #9
         ]
 
-# print('.' * ((len(number) * 5) + (len(number) * len(space)-1)))
 print()
 for y in range(7):
     for i in number:
@@ -45,4 +44,3 @@ for y in range(7):
     print()
 
 print()
-# print('.' * ((len(number) * 5) + (len(number) * len(space)-1)))
