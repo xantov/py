@@ -1,4 +1,3 @@
-#Convert Image to Text
 from PIL import Image
 import sys
 
@@ -7,7 +6,6 @@ text = file.read().replace('\n', ' ').replace('\r', '').replace('\t', ' ').repla
 
 #Fungsi mengambil kode warna pada pixel
 def get_pixel(image, i, j):
-    # Inside image bounds?
     width, height = image.size
     if i > width or j > height:
         return None
@@ -17,8 +15,6 @@ def get_pixel(image, i, j):
     return pixel
 
 input_img = input('Masukkan file gambar (jpg/png): ')
-if input_img == '':
-    print('Anda belum memasukkan file gambar!')
 
 try:
     imagex = Image.open(input_img)
@@ -27,29 +23,18 @@ except FileNotFoundError:
     print("File tidak ditemukan")
     sys.exit()
 
-input_h = input('Masukkan tinggi output (Rekomendasi max 70): ')
-
-if input_h == '':
-    baseheight = 90
-else:
-    baseheight = int(input_h)
+baseheight  = int(input('Masukkan tinggi output (Rekomendasi max 70): '))
+baseheight = 90 if baseheight == '' else baseheight
 
 contrast = int(input('Adjustmen kontras (10-90): '))
-
-if contrast =='' or contrast > 90 or contrast < 10:
-    contrast = .5
-else:
-    contrast = (contrast/100)
+contrast = .5 if contrast == '' or contrast > 90 or contrast < 10 else contrast/100
 
 wpercent = (baseheight / float(height0))
 wsize = int(1.4 * int((float(width0) * float(wpercent))))
 new_image = imagex.resize((wsize, baseheight), Image.ANTIALIAS)
 
 space_conf=input('Tambahkan spasi pada output? ketik Ya/ Tidak : ')
-if space_conf.lower() == 'ya':
-    add_space = ' '
-else:
-    add_space=''
+add_space = ' ' if space_conf.lower() == 'ya' else ''
 
 # Transform to half tones
 posTxt=0
