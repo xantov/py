@@ -4,14 +4,13 @@ Simple project for python learning
 The following are sample input and output of the projects:
 
 **TIC TAC TOE**
-```python
+```
 Welcome to Tic Tac Toe Games, choose game mode (3-20): 5
 
 +---------+---------+---------+
 |         TIC TAC TOE         |
 |          -G A M E-          |
 +---------+---------+---------+
-
 
 Computer initial start
 
