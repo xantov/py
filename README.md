@@ -103,3 +103,20 @@ Apabila output terlalu gelap, naikkan nilai kontras!
 ·····················································
 ·····················································
 ```
+
+**5x7 LED MATRIX**
+```
+Input your numbers (0-9): 0123456789
+LED style (@,#,X,O) [Optional]: @
+Space between LED (0-5) [Optional]: 3
+Choose LED color (red, green, blue, yellow) [Optional]: blue
+
+ @@@      @      @@@    @@@@@      @    @@@@@     @@    @@@@@    @@@     @@@
+@   @    @@     @   @      @      @@    @        @          @   @   @   @   @
+@  @@     @         @     @      @ @    @@@@    @          @    @   @   @   @
+@ @ @     @        @       @    @  @        @   @@@@      @      @@@     @@@@
+@@  @     @       @         @   @@@@@       @   @   @    @      @   @       @
+@   @     @      @          @      @        @   @   @    @      @   @      @
+ @@@     @@@    @@@@@   @@@@       @    @@@@     @@@     @       @@@     @@
+
+``
