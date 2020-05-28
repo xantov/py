@@ -7,13 +7,12 @@ The following are sample input and output of the projects:
 ```
 Welcome to Tic Tac Toe Games, choose game mode (3-20): 5
 
-+---------+---------+---------+
-|         TIC TAC TOE         |
-|          -G A M E-          |
-+---------+---------+---------+
++-------------------------------------------------+
+|                   TIC TAC TOE                   |
+|                     G A M E                     |
++-------------------------------------------------+
 
 Computer initial start
-
 Computer move..wait a minute
 Computer type: 17
 +---------+---------+---------+---------+---------+
@@ -49,7 +48,6 @@ Computer type: 17
 +---------+---------+---------+---------+---------+
 
 Enter your move [1-25]:
-
 ```
 
 **IMAGE TO TEXT**
