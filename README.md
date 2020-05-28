@@ -1,9 +1,9 @@
-# py
+# py - python sample projects
 Sample project for python learning
 
 The following are sample output of the project:
 
-***TIC TAC TOE**
+**TIC TAC TOE**
 ```
 Welcome to Tic Tac Toe Games, choose game mode (3-20): 5
 
@@ -81,4 +81,65 @@ Computer type: 17
 
 Enter your move [1-25]:
 
+```
+
+**IMAGE TO TEXT**
+```
+Masukkan file gambar (jpg/png): pyt.png
+Masukkan tinggi output (Rekomendasi max 70): 50
+Adjustmen kontras (10-90): 35
+Tambahkan spasi pada output? ketik Ya/ Tidak : n
+
+Apabila output terlalu gelap, naikkan nilai kontras!
+
+·································································
+·································································
+·····························megloba·····························
+·······················bleLinemodeGame=3st·······················
+···················freeBoard=[]possibleLine=[]···················
+·················oeGames,choosegamemode(3-20):')·················
+···············---+---------+','|'+colored('TICTAC···············
+·············d('-GAME-','red')+'|','+---------+-----·············
+···········')print()SetBoard(modeGame)GenerateScoreBoa···········
+··········ine=scoreBoard[············=0:print('\nComput··········
+·········derBoard(modeG·················puterMove(modeGa·········
+········:print('\nYoum···f···············rd(modeGame,main········
+·······modeGame,mainB···d)d···············:globalmainBoard·······
+······,mod*mod):mainB···d.a···············nderBoard(mod,boa······
+·····inrange(1,int((m·····················(1,int((mod*10)+2)·····
+·····:ifx%10==1:print·····················end='')else:print(c····
+····-','cyan'),end='')else:ifx%1··········(colored('|','cyan'····
+···')else:if(x+···························pr·····,j,end='')ifl···
+···(board[i-1·····························e········ard[i-1]))-···
+···oard[i-1]······························,·········d='')elifbo··
+··i-1]=='O'·······························n·········)else:print··
+··rd[i-1],e·······························i··········(board[i-1··
+··ed'),end·······························ol··········[i-1],'gre··
+··,end='')······························lse··········end='')pri··
+··defGener··············mod):#globalboard············iagonal1va··
+··ine=[]fo············d):li··························(val)val+=··
+··1scoreBo···········li······························iinrange(m··
+··line.appe·········l+·······························owline=[]v··
+··foryinran·········or·······························al)scoreBo··
+··append(li·········]v······························ange(mod):f··
+···range(mod········pp······························ppend(line)··
+···[]val=1ret·······eB····························d):#Computer···
+···_ok=ComputerAssiste··········d)-1board[·····]='X'print('Com···
+····ve..waitaminute')t··········1.5)print(colored('Computerty····
+·····id_ok+1),'yellow'····················ard)UpdateScore(mod····
+·····tScore(mod,board)···············ar···efUserMove(mod,boa·····
+······vefreeCell=[]fo···············tin[··','O']:freeCell.a······
+·······True:try:usermo···············nE···ryourmove[1-{}]:·······
+········d)))exceptValue···················seanumberbetwee········
+·········mod*mod))try:us················('\nEnteryourmov·········
+··········d*mod)))exceptValue·······rint()print('\nDasa··········
+···········erbetween1and{}!'.format(mod*mod))usermove=···········
+·············[1-{}]:'.format(mod*mod)))ifusermovenot·············
+···············seiscurrentlyoccupied!')print()else···············
+·················print('\nChooseanumberbetween1a·················
+···················od,board)RenderBoard(mod,bo···················
+·······················ard)defUpdateScore(·······················
+·····························]allSB=·····························
+·································································
+·································································
 ```
