@@ -1,4 +1,3 @@
-#Expandable Tic Tac Toe
 from random import randrange, randint
 import time
 import sys
@@ -15,7 +14,6 @@ def init():
     global scoreBoard
     global possibleLine
 
-    modeGame = 3
     start = randrange(10)
     scoreBoard=[]
     mainBoard = []
@@ -23,6 +21,8 @@ def init():
     possibleLine=[]
 
     modeGame = int(input('Welcome to Tic Tac Toe Games, choose game mode (3-20): '))
+    modeGame = 3 if modeGame== 0 or modeGame=='' else modeGame
+    
     print()
     print(
         '+---------+---------+---------+',
@@ -32,15 +32,16 @@ def init():
     print()
 
     SetBoard(modeGame)
-    GenerateScoreBoard(modeGame)
+    GenerateScoreBoard(modeGame)    
+    RenderBoard(modeGame, mainBoard)
+
     possibleLine = scoreBoard[:]
+    
     if start % 2 == 0:
         print('\nComputer initial start')
-        RenderBoard(modeGame, mainBoard)
         ComputerMove(modeGame, mainBoard)
     else:
         print('\nYou move first')
-        RenderBoard(modeGame, mainBoard)  
         UserMove(modeGame, mainBoard)
 
 def SetBoard(mod):
@@ -84,7 +85,6 @@ def RenderBoard(mod, board):
         print()
 
 def GenerateScoreBoard(mod):
-    # global boardGameStatic
     #diagonal1
     val = 1
     line=[]
@@ -103,24 +103,22 @@ def GenerateScoreBoard(mod):
     scoreBoard.append(line)
 
     #row
-    line =[]
     val = 0
     for y in range(mod):
+        line=[]
         for x in range(mod):
             line.append(x+1+val)
         scoreBoard.append(line)
-        line=[]
         val += mod
 
     #col
-    line =[]
     val = 1
     for x in range(mod):
+        line =[]
         for y in range(mod):
             line.append(x+val)
             val += mod
         scoreBoard.append(line)
-        line=[]
         val = 1
  
     return scoreBoard
@@ -152,7 +150,7 @@ def UserMove(mod, board): #User Move
                 usermove = int(input('\nEnter your move [1-{}]: '.format(mod * mod)))
             except ValueError:
                 print()
-                print('\nDasar Bandel!..Choose a number between 1 and {}!'.format(mod * mod))
+                print('\nTry again!..Choose a number between 1 and {}!'.format(mod * mod))
                 usermove = int(input('Enter your move [1-{}]: '.format(mod * mod)))
 
         if usermove not in freeCell:
@@ -172,21 +170,18 @@ def UserMove(mod, board): #User Move
 def UpdateScore(mod, board):
     global scoreBoard
     global possibleLine
-    tmpSB = []
-    allSB = []
 
+    allSB = []
     for sc in possibleLine:
+        tmpSB=[]
         for c in sc:
             tmpSB.append(board[c-1])
         allSB.append(tmpSB)
-        tmpSB=[]
     scoreBoard = allSB[:]
 
 def GetScore(mod, board):
-    global scoreBoard
-    sumScore = 0
-    cScore = 0
-    uScore = 0
+    cScore  = 0
+    uScore  = 0
 
     count = 0
     for x in board:
@@ -198,27 +193,24 @@ def GetScore(mod, board):
         uScore = (sc.count('O') * -10)
 
         if cScore == 10 * mod:
-            print(colored('Computer Win', 'red'))
+            print(colored('Computer Won', 'red'))
             replayGame()
             break
         elif uScore == -10 * mod:
-            print(colored('You Win!', 'green'))
+            print(colored('You Won!', 'green'))
             replayGame()
             break
         elif count == 0:
-            print(colored('You stucked!', 'red'))
+            print(colored('You all stucked!', 'red'))
             print('Computer score: {}, Your score: {}'.format(cScore, -uScore))
             replayGame()
             break
 
 def ComputerAssisted(mod, board):
-    global scoreBoard
-    sumScore = 0
-    cScore = 0
-    uScore = 0
-    tmpSc = []
     allSc = []
+    
     for sc in scoreBoard:
+        sumScore = 0
         for s in sc:
             if s == 'X':
                 sumScore += 10
@@ -227,8 +219,6 @@ def ComputerAssisted(mod, board):
             else:
                 sumScore += 0
         allSc.append(sumScore)
-        sumScore = 0
-
 
     maxC = max(allSc)
     minU = min(allSc)
@@ -239,7 +229,6 @@ def ComputerAssisted(mod, board):
     if maxC == 10 * (mod - 1) and minU > -10 * (mod - 1) or maxC == 10 * (mod - 1) and minU == -10 * (mod - 1):
         tmpMax = []
         listMax = scoreBoard[idMax]
-        # print('listmax', listMax)
         for ls in listMax:
             if ls not in ['X','O']:
                 tmpMax.append(ls)
@@ -247,7 +236,6 @@ def ComputerAssisted(mod, board):
         lmax = len(tmpMax)
         idxOut = randrange(lmax)
         vmax = tmpMax[idxOut]
-        # print (vmax)
         return vmax
 
     elif minU == -10 * (mod - 1) and maxC < 10 * (mod - 1):
@@ -265,7 +253,6 @@ def ComputerAssisted(mod, board):
     elif minU == -10 * (mod - 1):
         tmpMin1 = []
         listMin1 = scoreBoard[idMin]
-        
         for ln1 in listMin1:
             if ln1 not in ['X','O']:
                 tmpMin1.append(ln1)
@@ -286,8 +273,8 @@ def ComputerAssisted(mod, board):
         return v0
 
 def replayGame():
-    c = input('Do you still want to continue this game? Y/N : ')
-    if c == 'Y' or c == 'y' or c == 'yes':
+    c = input('Do you still want to continue this game? Y/N : ').lower()
+    if c in ['y', 'yes', 'ya', 'ok']:
         init()
     else:
         sys.exit()
