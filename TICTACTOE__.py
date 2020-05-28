@@ -24,11 +24,10 @@ def init():
     modeGame = 3 if modeGame== 0 or modeGame=='' else modeGame
     
     print()
-    print(
-        '+---------+---------+---------+',
-        '|         ' + colored('TIC TAC TOE', 'green') + '         |',
-        '|          ' + colored('-G A M E-', 'red') + '          |',
-        '+---------+---------+---------+', sep = '\n')
+    print('+'+'-'*((modeGame*10)-1)+'+',
+            '|'+' '*((modeGame*10-11)//2)+ 'TIC TAC TOE' +' '*((modeGame*10-11)//2)+'|',
+            '|'+' '*((modeGame*10-7)//2)+ 'G A M E' +' '*((modeGame*10-7)//2)+'|',
+            '+'+'-'*((modeGame*10)-1)+'+', sep = '\n')
     print()
 
     SetBoard(modeGame)
