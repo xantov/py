@@ -118,5 +118,13 @@ Choose LED color (red, green, blue, yellow) [Optional]: blue
 @@  @     @       @         @   @@@@@       @   @   @    @      @   @       @
 @   @     @      @          @      @        @   @   @    @      @   @      @
  @@@     @@@    @@@@@   @@@@       @    @@@@     @@@     @       @@@     @@
+ 
+ OOO      O      OOO    OOOOO      O    OOOOO     OO    OOOOO    OOO     OOO
+O   O    OO     O   O      O      OO    O        O          O   O   O   O   O
+O  OO     O         O     O      O O    OOOO    O          O    O   O   O   O
+O O O     O        O       O    O  O        O   OOOO      O      OOO     OOOO
+OO  O     O       O         O   OOOOO       O   O   O    O      O   O       O
+O   O     O      O          O      O        O   O   O    O      O   O      O
+ OOO     OOO    OOOOO   OOOO       O    OOOO     OOO     O       OOO     OO
 
 ``
