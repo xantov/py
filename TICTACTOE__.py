@@ -11,11 +11,9 @@ def init():
     global modeGame
     global mainBoard
     global freeBoard
-    global scoreBoard
     global possibleLine
 
     start = randrange(10)
-    scoreBoard=[]
     mainBoard = []
     freeBoard = []
     possibleLine=[]
@@ -53,10 +51,7 @@ def RenderBoard(mod, board):
     for y in range(1, int((mod * 6)) + 2):
         for x in range(1, int((mod * 10) + 2)):
             if y % 6 == 1:
-                if x % 10 == 1:
-                    print(colored('+', 'cyan'), end='')
-                else:
-                    print(colored('-','cyan'), end='')
+                print(colored('+', 'cyan'), end='') if x % 10 == 1 else print(colored('-','cyan'), end='')
             else:
                 if x % 10 == 1:
                     print(colored('|','cyan'), end='')
@@ -84,42 +79,17 @@ def RenderBoard(mod, board):
         print()
 
 def GenerateScoreBoard(mod):
-    #diagonal1
-    val = 1
-    line=[]
-    for i in range(mod):
-        line.append(val)
-        # line.append(val)
-        val += mod+1
-    scoreBoard.append(line)
+    global scoreBoard
+    scoreBoard = []
+    line = [[(mod*j)+i+1 for i in range(mod)] for j in range(mod)]
+    row  = [[(j+1)+(mod*i) for i in range(mod)] for j in range(mod)]
+    diag1=[(mod*i)+(i+1) for i in range(mod)] 
+    diag2=[(mod*i)+(mod-i) for i in range(mod)] 
 
-    #diagonal2
-    line =[]
-    val = mod
-    for i in range(mod):
-        line.append(val)
-        val += mod-1
-    scoreBoard.append(line)
-
-    #row
-    val = 0
-    for y in range(mod):
-        line=[]
-        for x in range(mod):
-            line.append(x+1+val)
-        scoreBoard.append(line)
-        val += mod
-
-    #col
-    val = 1
-    for x in range(mod):
-        line =[]
-        for y in range(mod):
-            line.append(x+val)
-            val += mod
-        scoreBoard.append(line)
-        val = 1
- 
+    scoreBoard = line+row
+    scoreBoard.append(diag1)
+    scoreBoard.append(diag2) 
+    
     return scoreBoard
 
 def ComputerMove(mod, board): #Computer Move
@@ -207,6 +177,7 @@ def GetScore(mod, board):
 
 def ComputerAssisted(mod, board):
     allSc = []
+    # print (scoreBoard)
     
     for sc in scoreBoard:
         sumScore = 0
