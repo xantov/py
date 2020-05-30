@@ -43,8 +43,7 @@ def init():
 
 def SetBoard(mod):
     global mainBoard
-    for i in range(0, mod * mod):
-        mainBoard.append(i + 1)
+    mainBoard = [i+1 for i in range(mod*mod)]  
 
 def RenderBoard(mod, board):
     i = 0
