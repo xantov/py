@@ -6,7 +6,7 @@ def init():
     global board
     global maps
     global start
-    global possMove #All possible range to calculate winner
+    global possMove #All possible range to calculate the winner
     start = True
     board = [[(3*j)+i+1 for i in range(3)] for j in range(3)]
     maps = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
