@@ -6,7 +6,7 @@ os.system('color')
 num     = str(input('Input your numbers (0-9): '))
 number  = []
 for n in num:
-    if n in ['0','1','2','3','4','5','6','7','8','9']:
+    if n in [str(i) for i in range(10)]:
         number.append(n)
         
 on_led  = str(input('LED style (@,#,X,O) [Optional]: '))
