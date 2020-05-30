@@ -1,21 +1,17 @@
-step =26
+step =27
 ss ='The die is cast'
 
 def CzEncrypt(char, step):
     step = step%26
     ordx = ord(char) + step
+    val = ''
     if ord('A') <= ord(char) <=ord('Z'):
-        if ordx > ord('Z'):
-            return(chr(ordx-26))
-        else:
-            return(chr(ordx))
+        val = chr(ordx-26) if ordx > ord('Z') else chr(ordx)
     elif ord('a') <= ord(char) <=ord('z'):
-        if ordx > ord('z'):
-            return(chr(ordx-26))
-        else:
-            return(chr(ordx))    
+        val = chr(ordx-26) if ordx > ord('z') else chr(ordx)
     else:
-        return char
-        
+        val = char
+    return val
+
 for s in ss:
     print(CzEncrypt(s,step), end='')
