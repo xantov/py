@@ -11,7 +11,6 @@ def CzEncrypt(char, step):
     return val
 
 def CzDecrypt(char, step):
-    # step = step%26
     ordx = ord(char) + 26 - step
     val = ''
     if ord('A') <= ordx <= ord('Z') or ord('a') <= ordx <= ord('z'):
