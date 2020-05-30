@@ -44,7 +44,6 @@ def MakeListOfFreeFields(brd):
 
 
 def EnterMove(brd): #User Move
-    VictoryFor(brd)
     while True:
         user_input = int(input('\nEnter your move [1-9]: '))
 
@@ -53,6 +52,7 @@ def EnterMove(brd): #User Move
             if target in FreeCell:
                 brd[target[0]][target[1]] = 'O'
                 DisplayBoard(brd)
+                VictoryFor(brd)
                 DrawMove(brd)
             else:
                 print('\nYour choose is currently occupied!')
@@ -60,7 +60,6 @@ def EnterMove(brd): #User Move
     
 def DrawMove(brd):#Computer move
     global start
-    VictoryFor(brd)
     idcek = 4 if start == True else randrange(len(FreeCell))
     start = False
     target = FreeCell[idcek]
@@ -69,6 +68,7 @@ def DrawMove(brd):#Computer move
     brd[target[0]][target[1]] = 'X'
 
     DisplayBoard(brd)
+    VictoryFor(brd)
     EnterMove(brd)
 
     
