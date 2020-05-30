@@ -1,4 +1,4 @@
-# py - python sample projects
+# py - python simple projects
 Simple project for python learning
 
 The following are sample input and output of the projects:
