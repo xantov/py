@@ -6,17 +6,30 @@ def init():
     global board
     global maps
     global start
-    global possMove #All possible range to calculate the winner
+    
     start = True
     board = [[(3*j)+i+1 for i in range(3)] for j in range(3)]
     maps = [[x//3,(x%3)] for x in range(9)]
-    possMove = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
     
+    GeneratePossMove()
     MakeListOfFreeFields(board)
 
     print('\nComputer initial start')
     DrawMove(board)
     
+def GeneratePossMove():
+    global possMove #All possible range to calculate winner
+    possMove = []
+
+    #3 is game mode
+    line = [[(3*j)+i+1 for i in range(3)] for j in range(3)]
+    row = [[(j+1)+(2*i)+i for i in range(3)] for j in range(3)]
+    diag1=[i+(i*3)+1 for i in range(3)] 
+    diag2=[(2*i+3) for i in range(3)] 
+
+    possMove = line+row
+    possMove.append(diag1)
+    possMove.append(diag2)
     
 def DisplayBoard(brd):   
     for y in range(1, 20):
