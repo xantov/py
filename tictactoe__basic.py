@@ -9,7 +9,7 @@ def init():
     global possMove #All possible range to calculate the winner
     start = True
     board = [[(3*j)+i+1 for i in range(3)] for j in range(3)]
-    maps = z= [[x//3,(x%3)] for x in range(9)]
+    maps = [[x//3,(x%3)] for x in range(9)]
     possMove = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
     
     MakeListOfFreeFields(board)
