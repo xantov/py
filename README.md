@@ -155,3 +155,24 @@ O   O     O      O          O      O        O   O   O    O      O   O      O
  OOO     OOO    OOOOO   OOOO       O    OOOO     OOO     O       OOO     OO
 
 ```
+
+**Caesar Chiper**
+```python
+#TEST
+step =27
+
+ec ='The Caesar cipher is named after Julius Caesar..'
+print('Encryped text: ',end='')
+for e in ec:
+    print(CzEncrypt(e,step),end='')
+
+dc='Uif Dbftbs djqifs jt obnfe bgufs Kvmjvt Dbftbs..'
+print('\nDecrypted text: ',end='')
+for x in dc:
+    print(CzDecrypt(x,step),end='')
+```
+```
+Output:
+Encryped text: Uif Dbftbs djqifs jt obnfe bgufs Kvmjvt Dbftbs..
+Decrypted text: The Caesar cipher is named after Julius Caesar..
+```
