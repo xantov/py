@@ -20,12 +20,12 @@ def init():
 def GeneratePossMove():
     global possMove #All possible range to calculate winner
     possMove = []
-
+    mod = 3
     #3 is game mode
-    line = [[(3*j)+i+1 for i in range(3)] for j in range(3)]
-    row = [[(j+1)+(2*i)+i for i in range(3)] for j in range(3)]
-    diag1=[i+(i*3)+1 for i in range(3)] 
-    diag2=[(2*i+3) for i in range(3)] 
+    line = [[(mod*j)+i+1 for i in range(mod)] for j in range(mod)]
+    row = [[(j+1)+(mod*i) for i in range(mod)] for j in range(mod)]
+    diag1=[(mod*i)+(i+1) for i in range(mod)] 
+    diag2=[(mod*i)+(mod-i) for i in range(mod)] 
 
     possMove = line+row
     possMove.append(diag1)
