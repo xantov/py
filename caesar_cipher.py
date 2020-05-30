@@ -1,6 +1,3 @@
-step =27
-ss ='The die is cast'
-
 def CzEncrypt(char, step):
     step = step%26
     ordx = ord(char) + step
@@ -13,5 +10,27 @@ def CzEncrypt(char, step):
         val = char
     return val
 
-for s in ss:
-    print(CzEncrypt(s,step), end='')
+def CzDecrypt(char, step):
+    # step = step%26
+    ordx = ord(char) + 26 - step
+    val = ''
+    if ord('A') <= ordx <= ord('Z') or ord('a') <= ordx <= ord('z'):
+        val = chr(ordx)
+    elif ordx > 63:
+        val = chr(ordx-26)
+    else:
+        val = char
+    return val
+
+#TEST
+step =27
+
+ec ='The Caesar cipher is named after Julius Caesar..'
+print('Encryped text: ',end='')
+for e in ec:
+    print(CzEncrypt(e,step),end='')
+
+dc='Uif Dbftbs djqifs jt obnfe bgufs Kvmjvt Dbftbs..'
+print('\nDecrypted text: ',end='')
+for x in dc:
+    print(CzDecrypt(x,step),end='')
