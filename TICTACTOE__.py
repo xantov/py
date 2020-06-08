@@ -6,7 +6,7 @@ from termcolor import colored
 
 os.system('color')
 
-#Mainboard is refference for all List!
+#Mainboard is reference for all List!
 def init():
     global modeGame
     global mainBoard
@@ -249,4 +249,5 @@ def replayGame():
         sys.exit()
 
 #EXECUTE
-init()
+if __name__ == "__main__":
+    init()
