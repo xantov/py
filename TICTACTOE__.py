@@ -37,6 +37,8 @@ class TTT:
               '|' + ' ' * ((self.__mod * 10 - 11) // 2) + 'TIC TAC TOE' + ' ' * ((self.__mod * 10 - 11) // 2) + '|',
               '|' + ' ' * ((self.__mod * 10 - 7) // 2) + 'G A M E' + ' ' * ((self.__mod * 10 - 7) // 2) + '|',
               '+' + '-' * ((self.__mod * 10) - 1) + '+', sep='\n')
+        print('MODE: '+str(self.__mod)+'x'+str(self.__mod))
+        print('RULE: '+str(self.__rule)+' ['+'X'* self.__rule +','+'O'* self.__rule + ']')
         print()
 
         self.EmptyCell()
@@ -104,16 +106,6 @@ class TTT:
             self.ComputerMove()
 
 
-    def ComputerMove(self):  # Computer Move
-        self.id_ok = self.ComputerAssisted() - 1
-        self.__mainBoard[self.id_ok] = 'X'
-
-        print('Computer move..wait a minute')
-        time.sleep(1.5)
-        print(colored('Computer type: ' + str(self.id_ok + 1), 'yellow'))
-        self.ApplyMove()
-
-
     def UserInput(self):
         self.usermove = int(input('\nEnter your move [1-{}]: '.format(self.__mod * self.__mod)))
 
@@ -146,6 +138,16 @@ class TTT:
         self.ApplyMove()
 
 
+    def ComputerMove(self):  # Computer Move
+        self.id_ok = self.ComputerAssisted() -1
+        self.__mainBoard[self.id_ok] = 'X'
+
+        print('Computer move..wait a minute')
+        time.sleep(1.5)
+        print(colored('Computer type: ' + str(self.id_ok + 1), 'yellow'))
+        self.ApplyMove()
+
+
     def UpdateScore(self):
         self.allSB = []
         for self.sc in self.__possibleLine:
@@ -161,7 +163,6 @@ class TTT:
 
         for self.sc in self.__scoreBoard:
             for self.i in range(self.__rule):
-                # print(self.sc[self.i:self.i + self.__rule])
                 if self.sc[self.i:self.i + self.__rule] == ['X' for self.z in range(self.__rule)]:
                     print(colored('Computer Won', 'red'))
                     self.ReplayGame()
@@ -172,75 +173,42 @@ class TTT:
                     break
                 elif self.countFree == 0:
                     print(colored('You all stucked!', 'red'))
-                    print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
+                    # print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
                     self.ReplayGame()
                     break
 
 
     def ComputerAssisted(self):
-        self.allSc = []
+        self.tmpTarget = []
+        self.target = 0
+        self.tg = 0
+        self.MaxC = False
+        self.MaxU = False
         for self.sc in self.__scoreBoard:
-            self.sumScore = 0
-            for self.s in self.sc:
-                if self.s == 'X':
-                    self.sumScore += 10
-                elif self.s == 'O':
-                    self.sumScore -= 10
-                else:
-                    self.sumScore += 0
-            self.allSc.append(self.sumScore)
+            for self.i in range(self.__rule):
+                if self.sc[self.i:self.i + self.__rule].count('X') >= self.__rule-1 and self.sc[self.i:self.i + self.__rule].count('O') == 0:
+                    for t in self.sc[self.i:self.i + self.__rule]:
+                        if t not in ['X', 'O']:
+                            self.target = int(t)
+                            break
+                elif self.sc[self.i:self.i + self.__rule].count('O') >= self.__rule-1 and self.sc[self.i:self.i + self.__rule].count('X') == 0:
+                    for t in self.sc[self.i:self.i + self.__rule]:
+                        if t not in ['X', 'O']:
+                            self.target = int(t)
+                            break
+                elif self.target == 0 and 0 <= self.sc[self.i:self.i + self.__rule].count('X') < self.__rule-2 and self.sc[self.i:self.i + self.__rule].count('O') == 0:
+                    for t in self.sc[self.i:self.i + self.__rule]:
+                        if t not in ['X','O']:
+                            self.tmpTarget.append(int(t))
+                            self.tg = randrange(0, len(self.tmpTarget))
+                            self.target = self.tmpTarget[self.tg]
+                        break
 
-        self.maxC = max(self.allSc)
-        self.minU = min(self.allSc)
-
-        self.idMax = self.allSc.index(self.maxC)
-        self.idMin = self.allSc.index(self.minU)
-
-        if self.maxC == 10 * (self.__mod - 1) and self.minU > -10 * (self.__mod - 1) or self.maxC == 10 * (self.__mod - 1) and self.minU == -10 * (self.__mod - 1):
-            self.tmpMax = []
-            self.listMax = self.__scoreBoard[self.idMax]
-            for self.ls in self.listMax:
-                if self.ls not in ['X', 'O']:
-                    self.tmpMax.append(self.ls)
-
-            self.lmax = len(self.tmpMax)
-            self.idxOut = randrange(self.lmax)
-            self.vmax = self.tmpMax[self.idxOut]
-            return self.vmax
-
-        elif self.minU == -10 * (self.__mod - 1) and self.maxC < 10 * (self.__mod - 1):
-            self.tmpMin = []
-            self.listMin = self.__scoreBoard[self.idMin]
-            for self.ln in self.listMin:
-                if self.ln not in ['X', 'O']:
-                    self.tmpMin.append(self.ln)
-
-            self.lmin = len(self.tmpMin)
-            self.idnOut = randrange(self.lmin)
-            self.vmin = self.tmpMin[self.idnOut]
-            return self.vmin
-
-        elif self.minU == -10 * (self.__mod - 1):
-            self.tmpMin1 = []
-            self.listMin1 = self.__scoreBoard[self.idMin]
-            for self.ln1 in self.listMin1:
-                if self.ln1 not in ['X', 'O']:
-                    self.tmpMin1.append(self.ln1)
-
-            self.lmin1 = len(self.tmpMin1)
-            self.idnOut1 = self.randrange(self.lmin1)
-            self.vmin1 = self.tmpMin[self.idnOut1]
-            return self.vmin1
-
-        elif self.maxC < 10 * (self.__mod - 1) and self.minU > -10 * (self.__mod - 1):
-            self.tmp0 = []
-            for self.x in self.__mainBoard:
-                if self.x not in ['X', 'O']:
-                    self.tmp0.append(self.x)
-            self.l0 = len(self.tmp0)
-            self.id0 = randrange(self.l0)
-            self.v0 = self.tmp0[self.id0]
-            return self.v0
+        if self.target == 0:
+            self.tg = randrange(0, len(self.__freeCell))
+            self.target = self.__freeCell[self.tg]
+        # print('target',self.target)
+        return self.target
 
 
     def ReplayGame(self):
