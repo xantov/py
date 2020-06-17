@@ -10,14 +10,22 @@ class TTT:
     def __init__(self):
         self.__mod = int(input('Welcome to Tic Tac Toe Games, choose game mode (3-20): '))
         self.__mod = 3 if self.__mod == 0 or self.__mod == '' else self.__mod
+        self.__rule = int(input('Choose game rule: '))
+        self.__rule = self.__mod if int(self.__rule) <= 0 or int(self.__rule) > self.__mod else self.__rule
         self.__mainBoard =[self.i + 1 for self.i in range(self.__mod * self.__mod)]
+        # Score board
         self.__lineSore = [[(self.__mod * self.j) + self.i + 1 for self.i in range(self.__mod)] for self.j in range(self.__mod)]
         self.__rowScore = [[(self.j + 1) + (self.__mod * self.i) for self.i in range(self.__mod)] for self.j in range(self.__mod)]
         self.__diag1Score = [(self.__mod * self.i) + (self.i + 1) for self.i in range(self.__mod)]
+        self.__diag1Score_left = [[(self.__mod * self.i) + (self.i + 1) + self.n for self.i in range(self.__mod-self.n)] for self.n in range(1,self.__mod-self.__rule+1)]
+        self.__diag1Score_right = [[(self.__mod * self.i) + (self.i + (self.__mod * self.n)) +1 for self.i in range(self.__mod-self.n)] for self.n in range(1,self.__mod-self.__rule+1)]
         self.__diag2Score = [(self.__mod * self.i) + (self.__mod - self.i) for self.i in range(self.__mod)]
-        self.__scoreBoard = self.__lineSore + self.__rowScore
+        self.__diag2Score_left = [[(self.__mod * self.i) + (self.__mod - self.i) - self.n for self.i in range(self.__mod-self.n)] for self.n in range(1,self.__mod-self.__rule+1)]
+        self.__diag2Score_right = [[(self.__mod * self.i) + (self.__mod - self.i)+(self.__mod * self.n) for self.i in range(self.__mod-self.n)] for self.n in range(1,self.__mod-self.__rule+1)]
+        self.__scoreBoard = self.__lineSore + self.__rowScore+self.__diag1Score_left+self.__diag1Score_right+self.__diag2Score_left+self.__diag2Score_right
         self.__scoreBoard.append(self.__diag1Score)
         self.__scoreBoard.append(self.__diag2Score)
+        # End Score board
         self.__start = randrange(10)
         self.__freeBoard =[]
         self.__freeCell =[]
@@ -32,7 +40,6 @@ class TTT:
         print()
 
         self.EmptyCell()
-        # self.GenerateScoreBoard()
         self.RenderBoard()
 
         self.__possibleLine = self.__scoreBoard[:]
@@ -150,28 +157,24 @@ class TTT:
 
 
     def GetScore(self):
-        self.cScore = 0
-        self.uScore = 0
-
         self.countFree = sum([1 for self.x in self.__mainBoard if self.x not in ['X', 'O']])
 
         for self.sc in self.__scoreBoard:
-            self.cScore = (self.sc.count('X') * 10)
-            self.uScore = (self.sc.count('O') * -10)
-
-            if self.cScore == 10 * self.__mod:
-                print(colored('Computer Won', 'red'))
-                self.ReplayGame()
-                break
-            elif self.uScore == -10 * self.__mod:
-                print(colored('You Won!', 'green'))
-                self.ReplayGame()
-                break
-            elif self.countFree == 0:
-                print(colored('You all stucked!', 'red'))
-                print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
-                self.ReplayGame()
-                break
+            for self.i in range(self.__rule):
+                # print(self.sc[self.i:self.i + self.__rule])
+                if self.sc[self.i:self.i + self.__rule] == ['X' for self.z in range(self.__rule)]:
+                    print(colored('Computer Won', 'red'))
+                    self.ReplayGame()
+                    break
+                elif self.sc[self.i:self.i + self.__rule] ==  ['O' for self.z in range(self.__rule)]:
+                    print(colored('You Won!', 'green'))
+                    self.ReplayGame()
+                    break
+                elif self.countFree == 0:
+                    print(colored('You all stucked!', 'red'))
+                    print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
+                    self.ReplayGame()
+                    break
 
 
     def ComputerAssisted(self):
