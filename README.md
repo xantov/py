@@ -5,7 +5,7 @@ The following are sample input and output of the projects:
 
 **TIC TAC TOE**
 ```python
-from TICTACTOE_ import TTT
+from TICTACTOE__ import TTT
 newGame = TTT()
 ```
 Output:
