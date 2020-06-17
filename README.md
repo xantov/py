@@ -4,6 +4,8 @@ Simple project for python learning
 The following are sample input and output of the projects:
 
 **TIC TAC TOE**
+Now you can set game mode and rule, ie: Game mode 5x5 and rule 3, if player have 'XXX' or 'OOO' sequence in any possible range they will win the game.
+Next update: fixing computer best move
 ```python
 from TICTACTOE__ import TTT
 newGame = TTT()
@@ -11,37 +13,36 @@ newGame = TTT()
 Output:
 ```
 Welcome to Tic Tac Toe Games, choose game mode (3-20): 5
+Choose game rule: 3
 
 +-------------------------------------------------+
 |                   TIC TAC TOE                   |
 |                     G A M E                     |
 +-------------------------------------------------+
 
-Computer initial start
-Computer move..wait a minute
-Computer type: 17
+...
 +---------+---------+---------+---------+---------+
 |         |         |         |         |         |
 |         |         |         |         |         |
-|    1    |    2    |    3    |    4    |    5    |
-|         |         |         |         |         |
-|         |         |         |         |         |
-+---------+---------+---------+---------+---------+
-|         |         |         |         |         |
-|         |         |         |         |         |
-|    6    |    7    |    8    |    9    |   10    |
+|    1    |    2    |    O    |    4    |    5    |
 |         |         |         |         |         |
 |         |         |         |         |         |
 +---------+---------+---------+---------+---------+
 |         |         |         |         |         |
 |         |         |         |         |         |
-|   11    |   12    |   13    |   14    |   15    |
+|    6    |    O    |    X    |    9    |   10    |
 |         |         |         |         |         |
 |         |         |         |         |         |
 +---------+---------+---------+---------+---------+
 |         |         |         |         |         |
 |         |         |         |         |         |
-|   16    |    X    |   18    |   19    |   20    |
+|    O    |   12    |   13    |   14    |   15    |
+|         |         |         |         |         |
+|         |         |         |         |         |
++---------+---------+---------+---------+---------+
+|         |         |         |         |         |
+|         |         |         |         |         |
+|    X    |   17    |    X    |   19    |   20    |
 |         |         |         |         |         |
 |         |         |         |         |         |
 +---------+---------+---------+---------+---------+
@@ -51,8 +52,8 @@ Computer type: 17
 |         |         |         |         |         |
 |         |         |         |         |         |
 +---------+---------+---------+---------+---------+
-
-Enter your move [1-25]:
+You Won!
+Do you still want to continue this game? Y/N :
 ```
 
 **IMAGE TO TEXT**
