@@ -1,4 +1,4 @@
-from random import randrange, randint
+from random import randrange
 import time
 import sys
 import os
@@ -6,248 +6,243 @@ from termcolor import colored
 
 os.system('color')
 
-#Mainboard is reference for all List!
-def init():
-    global modeGame
-    global mainBoard
-    global freeBoard
-    global possibleLine
+class TTT:
+    def __init__(self):
+        self.__mod = int(input('Welcome to Tic Tac Toe Games, choose game mode (3-20): '))
+        self.__mod = 3 if self.__mod == 0 or self.__mod == '' else self.__mod
+        self.__mainBoard =[self.i + 1 for self.i in range(self.__mod * self.__mod)]
+        self.__lineSore = [[(self.__mod * self.j) + self.i + 1 for self.i in range(self.__mod)] for self.j in range(self.__mod)]
+        self.__rowScore = [[(self.j + 1) + (self.__mod * self.i) for self.i in range(self.__mod)] for self.j in range(self.__mod)]
+        self.__diag1Score = [(self.__mod * self.i) + (self.i + 1) for self.i in range(self.__mod)]
+        self.__diag2Score = [(self.__mod * self.i) + (self.__mod - self.i) for self.i in range(self.__mod)]
+        self.__scoreBoard = self.__lineSore + self.__rowScore
+        self.__scoreBoard.append(self.__diag1Score)
+        self.__scoreBoard.append(self.__diag2Score)
+        self.__start = randrange(10)
+        self.__freeBoard =[]
+        self.__freeCell =[]
+        self.__possibleLine =[]
+        self.__isComputer = True
 
-    start = randrange(10)
-    mainBoard = []
-    freeBoard = []
-    possibleLine=[]
-
-    modeGame = int(input('Welcome to Tic Tac Toe Games, choose game mode (3-20): '))
-    modeGame = 3 if modeGame== 0 or modeGame=='' else modeGame
-    
-    print()
-    print('+'+'-'*((modeGame*10)-1)+'+',
-            '|'+' '*((modeGame*10-11)//2)+ 'TIC TAC TOE' +' '*((modeGame*10-11)//2)+'|',
-            '|'+' '*((modeGame*10-7)//2)+ 'G A M E' +' '*((modeGame*10-7)//2)+'|',
-            '+'+'-'*((modeGame*10)-1)+'+', sep = '\n')
-    print()
-
-    SetBoard(modeGame)
-    GenerateScoreBoard(modeGame)    
-    RenderBoard(modeGame, mainBoard)
-
-    possibleLine = scoreBoard[:]
-    
-    if start % 2 == 0:
-        print('\nComputer initial start')
-        ComputerMove(modeGame, mainBoard)
-    else:
-        print('\nYou move first')
-        UserMove(modeGame, mainBoard)
-
-def SetBoard(mod):
-    global mainBoard
-    mainBoard = [i+1 for i in range(mod*mod)]  
-
-def RenderBoard(mod, board):
-    i = 0
-    for y in range(1, int((mod * 6)) + 2):
-        for x in range(1, int((mod * 10) + 2)):
-            if y % 6 == 1:
-                print(colored('+', 'cyan'), end='') if x % 10 == 1 else print(colored('-','cyan'), end='')
-            else:
-                if x % 10 == 1:
-                    print(colored('|','cyan'), end='')
-                else:
-                    if (x+4) % 10 == 0 and (y+2) % 6 == 0:
-                        i += 1
-                        # print(i,j, end='')
-                        if len(str(board[i-1])) >= 2:
-                            print('', end='\x08' * (len(str(board[i-1])) - 1) )
-                            if board[i-1] == 'X':
-                                print(colored(board[i-1], 'red'), end='')
-                            elif board[i-1] == 'O':
-                                print(colored(board[i-1], 'green'), end='')
-                            else:
-                                print(board[i-1], end='')
-                        else:
-                            if board[i-1] == 'X':
-                                print(colored(board[i-1], 'red'), end='')
-                            elif board[i-1] == 'O':
-                                print(colored(board[i-1], 'green'), end='')
-                            else:
-                                print(board[i-1], end='')
-                    else:
-                        print(' ', end='')                
+        print()
+        print('+' + '-' * ((self.__mod * 10) - 1) + '+',
+              '|' + ' ' * ((self.__mod * 10 - 11) // 2) + 'TIC TAC TOE' + ' ' * ((self.__mod * 10 - 11) // 2) + '|',
+              '|' + ' ' * ((self.__mod * 10 - 7) // 2) + 'G A M E' + ' ' * ((self.__mod * 10 - 7) // 2) + '|',
+              '+' + '-' * ((self.__mod * 10) - 1) + '+', sep='\n')
         print()
 
-def GenerateScoreBoard(mod):
-    global scoreBoard
-    scoreBoard = []
-    line = [[(mod*j)+i+1 for i in range(mod)] for j in range(mod)]
-    row  = [[(j+1)+(mod*i) for i in range(mod)] for j in range(mod)]
-    diag1=[(mod*i)+(i+1) for i in range(mod)] 
-    diag2=[(mod*i)+(mod-i) for i in range(mod)] 
+        self.EmptyCell()
+        # self.GenerateScoreBoard()
+        self.RenderBoard()
 
-    scoreBoard = line+row
-    scoreBoard.append(diag1)
-    scoreBoard.append(diag2) 
-    
-    return scoreBoard
+        self.__possibleLine = self.__scoreBoard[:]
 
-def ComputerMove(mod, board): #Computer Move
-    id_ok = ComputerAssisted(mod, board) - 1
-    board[id_ok] = 'X'
-
-    print('Computer move..wait a minute')
-    time.sleep(1.5)
-    print(colored('Computer type: ' + str(id_ok + 1), 'yellow'))
-    RenderBoard(mod, board)
-    UpdateScore(mod, board)
-    GetScore(mod, board)
-    UserMove(mod, board)
-
-def UserMove(mod, board): #User Move
-    freeCell=[]
-    for c in board:
-        if c not in ['X','O']:
-            freeCell.append(c)
-            
-    while True:
-        try:
-            usermove = int(input('\nEnter your move [1-{}]: '.format(mod * mod)))
-        except ValueError:
-            print('\nChoose a number between 1 and {}!'.format(mod * mod))
-            try:
-                usermove = int(input('\nEnter your move [1-{}]: '.format(mod * mod)))
-            except ValueError:
-                print()
-                print('\nTry again!..Choose a number between 1 and {}!'.format(mod * mod))
-                usermove = int(input('Enter your move [1-{}]: '.format(mod * mod)))
-
-        if usermove not in freeCell:
-            print('\nYour choose is currently occupied!')
-            print()
+        if self.__start % 2 == 0:
+            print('\nComputer initial start')
+            self.ComputerMove()
         else:
-            board[usermove-1] = 'O'
-            break
-    else:
-        print('\nChoose a number between 1 and {}!'.format(mod * mod))
+            print('\nYou move first')
+            self.__isComputer = False
+            self.UserMove()
 
-    UpdateScore(mod, board)
-    RenderBoard(mod, board)
-    GetScore(mod, board)
-    ComputerMove(mod, board)
 
-def UpdateScore(mod, board):
-    global scoreBoard
-    global possibleLine
+    def RenderBoard(self):
+        self.i = 0
+        for self.y in range(1, int((self.__mod * 6)) + 2):
+            for self.x in range(1, int((self.__mod * 10) + 2)):
+                if self.y % 6 == 1:
+                    print(colored('+', 'cyan'), end='') if self.x % 10 == 1 else print(colored('-', 'cyan'), end='')
+                else:
+                    if self.x % 10 == 1:
+                        print(colored('|', 'cyan'), end='')
+                    else:
+                        if (self.x + 4) % 10 == 0 and (self.y + 2) % 6 == 0:
+                            self.i += 1
+                            if len(str(self.__mainBoard[self.i - 1])) >= 2:
+                                print('', end='\x08' * (len(str(self.__mainBoard[self.i - 1])) - 1))
+                                if self.__mainBoard[self.i - 1] == 'X':
+                                    print(colored(self.__mainBoard[self.i - 1], 'red'), end='')
+                                elif self.__mainBoard[self.i - 1] == 'O':
+                                    print(colored(self.__mainBoard[self.i - 1], 'green'), end='')
+                                else:
+                                    print(self.__mainBoard[self.i - 1], end='')
+                            else:
+                                if self.__mainBoard[self.i - 1] == 'X':
+                                    print(colored(self.__mainBoard[self.i - 1], 'red'), end='')
+                                elif self.__mainBoard[self.i - 1] == 'O':
+                                    print(colored(self.__mainBoard[self.i - 1], 'green'), end='')
+                                else:
+                                    print(self.__mainBoard[self.i - 1], end='')
+                        else:
+                            print(' ', end='')
+            print()
 
-    allSB = []
-    for sc in possibleLine:
-        tmpSB=[]
-        for c in sc:
-            tmpSB.append(board[c-1])
-        allSB.append(tmpSB)
-    scoreBoard = allSB[:]
 
-def GetScore(mod, board):
-    cScore  = 0
-    uScore  = 0
+    def EmptyCell(self):
+        for self.c in self.__mainBoard:
+            if self.c not in ['X', 'O']:
+                self.__freeCell.append(self.c)
 
-    count = 0
-    for x in board:
-        if x not in ['X','O']:
-            count +=1
 
-    for sc in scoreBoard:
-        cScore = (sc.count('X') * 10)
-        uScore = (sc.count('O') * -10)
+    def ApplyMove(self):
+        self.EmptyCell()
+        self.RenderBoard()
+        self.UpdateScore()
+        self.GetScore()
+        if self.__isComputer:
+            self.__isComputer = False
+            self.UserMove()
+        else:
+            self.__isComputer = True
+            self.ComputerMove()
 
-        if cScore == 10 * mod:
-            print(colored('Computer Won', 'red'))
-            replayGame()
-            break
-        elif uScore == -10 * mod:
-            print(colored('You Won!', 'green'))
-            replayGame()
-            break
-        elif count == 0:
-            print(colored('You all stucked!', 'red'))
-            print('Computer score: {}, Your score: {}'.format(cScore, -uScore))
-            replayGame()
-            break
 
-def ComputerAssisted(mod, board):
-    allSc = []
-    # print (scoreBoard)
-    
-    for sc in scoreBoard:
-        sumScore = 0
-        for s in sc:
-            if s == 'X':
-                sumScore += 10
-            elif s == 'O':
-                sumScore -= 10
+    def ComputerMove(self):  # Computer Move
+        self.id_ok = self.ComputerAssisted() - 1
+        self.__mainBoard[self.id_ok] = 'X'
+
+        print('Computer move..wait a minute')
+        time.sleep(1.5)
+        print(colored('Computer type: ' + str(self.id_ok + 1), 'yellow'))
+        self.ApplyMove()
+
+
+    def UserInput(self):
+        self.usermove = int(input('\nEnter your move [1-{}]: '.format(self.__mod * self.__mod)))
+
+
+    def UserError(self):
+        print('\nChoose a number between 1 and {}!'.format(self.__mod * self.__mod))
+
+
+    def UserMove(self):  # User Move
+        while True:
+            try:
+                self.UserInput()
+            except ValueError:
+                self.UserError()
+                try:
+                    self.UserInput()
+                except ValueError:
+                    self.UserError()
+                    self.UserInput()
+
+            if self.usermove not in self.__freeCell:
+                print('\nYour choose is currently occupied!')
+                print()
             else:
-                sumScore += 0
-        allSc.append(sumScore)
+                self.__mainBoard[self.usermove - 1] = 'O'
+                break
+        else:
+            self.UserError()
 
-    maxC = max(allSc)
-    minU = min(allSc)
+        self.ApplyMove()
 
-    idMax = allSc.index(maxC)
-    idMin = allSc.index(minU)
 
-    if maxC == 10 * (mod - 1) and minU > -10 * (mod - 1) or maxC == 10 * (mod - 1) and minU == -10 * (mod - 1):
-        tmpMax = []
-        listMax = scoreBoard[idMax]
-        for ls in listMax:
-            if ls not in ['X','O']:
-                tmpMax.append(ls)
-        
-        lmax = len(tmpMax)
-        idxOut = randrange(lmax)
-        vmax = tmpMax[idxOut]
-        return vmax
+    def UpdateScore(self):
+        self.allSB = []
+        for self.sc in self.__possibleLine:
+            self.tmpSB = []
+            for self.c in self.sc:
+                self.tmpSB.append(self.__mainBoard[self.c - 1])
+            self.allSB.append(self.tmpSB)
+        self.__scoreBoard = self.allSB[:]
 
-    elif minU == -10 * (mod - 1) and maxC < 10 * (mod - 1):
-        tmpMin = []
-        listMin = scoreBoard[idMin]
-        for ln in listMin:
-            if ln not in ['X','O']:
-                tmpMin.append(ln)
-        
-        lmin = len(tmpMin)
-        idnOut = randrange(lmin)
-        vmin = tmpMin[idnOut]
-        return vmin
 
-    elif minU == -10 * (mod - 1):
-        tmpMin1 = []
-        listMin1 = scoreBoard[idMin]
-        for ln1 in listMin1:
-            if ln1 not in ['X','O']:
-                tmpMin1.append(ln1)
-        
-        lmin1 = len(tmpMin1)
-        idnOut1 = randrange(lmin1)
-        vmin1 = tmpMin[idnOut1]
-        return vmin1
+    def GetScore(self):
+        self.cScore = 0
+        self.uScore = 0
 
-    elif maxC < 10 * (mod - 1) and minU > -10 * (mod - 1):
-        tmp0=[]
-        for x in board:
-            if x not in ['X','O']:
-                tmp0.append(x)
-        l0 = len(tmp0)
-        id0 = randrange(l0)
-        v0 = tmp0[id0]
-        return v0
+        self.countFree = sum([1 for self.x in self.__mainBoard if self.x not in ['X', 'O']])
 
-def replayGame():
-    c = input('Do you still want to continue this game? Y/N : ').lower()
-    if c in ['y', 'yes', 'ya', 'ok']:
-        init()
-    else:
-        sys.exit()
+        for self.sc in self.__scoreBoard:
+            self.cScore = (self.sc.count('X') * 10)
+            self.uScore = (self.sc.count('O') * -10)
 
-#EXECUTE
-if __name__ == "__main__":
-    init()
+            if self.cScore == 10 * self.__mod:
+                print(colored('Computer Won', 'red'))
+                self.ReplayGame()
+                break
+            elif self.uScore == -10 * self.__mod:
+                print(colored('You Won!', 'green'))
+                self.ReplayGame()
+                break
+            elif self.countFree == 0:
+                print(colored('You all stucked!', 'red'))
+                print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
+                self.ReplayGame()
+                break
+
+
+    def ComputerAssisted(self):
+        self.allSc = []
+        for self.sc in self.__scoreBoard:
+            self.sumScore = 0
+            for self.s in self.sc:
+                if self.s == 'X':
+                    self.sumScore += 10
+                elif self.s == 'O':
+                    self.sumScore -= 10
+                else:
+                    self.sumScore += 0
+            self.allSc.append(self.sumScore)
+
+        self.maxC = max(self.allSc)
+        self.minU = min(self.allSc)
+
+        self.idMax = self.allSc.index(self.maxC)
+        self.idMin = self.allSc.index(self.minU)
+
+        if self.maxC == 10 * (self.__mod - 1) and self.minU > -10 * (self.__mod - 1) or self.maxC == 10 * (self.__mod - 1) and self.minU == -10 * (self.__mod - 1):
+            self.tmpMax = []
+            self.listMax = self.__scoreBoard[self.idMax]
+            for self.ls in self.listMax:
+                if self.ls not in ['X', 'O']:
+                    self.tmpMax.append(self.ls)
+
+            self.lmax = len(self.tmpMax)
+            self.idxOut = randrange(self.lmax)
+            self.vmax = self.tmpMax[self.idxOut]
+            return self.vmax
+
+        elif self.minU == -10 * (self.__mod - 1) and self.maxC < 10 * (self.__mod - 1):
+            self.tmpMin = []
+            self.listMin = self.__scoreBoard[self.idMin]
+            for self.ln in self.listMin:
+                if self.ln not in ['X', 'O']:
+                    self.tmpMin.append(self.ln)
+
+            self.lmin = len(self.tmpMin)
+            self.idnOut = randrange(self.lmin)
+            self.vmin = self.tmpMin[self.idnOut]
+            return self.vmin
+
+        elif self.minU == -10 * (self.__mod - 1):
+            self.tmpMin1 = []
+            self.listMin1 = self.__scoreBoard[self.idMin]
+            for self.ln1 in self.listMin1:
+                if self.ln1 not in ['X', 'O']:
+                    self.tmpMin1.append(self.ln1)
+
+            self.lmin1 = len(self.tmpMin1)
+            self.idnOut1 = self.randrange(self.lmin1)
+            self.vmin1 = self.tmpMin[self.idnOut1]
+            return self.vmin1
+
+        elif self.maxC < 10 * (self.__mod - 1) and self.minU > -10 * (self.__mod - 1):
+            self.tmp0 = []
+            for self.x in self.__mainBoard:
+                if self.x not in ['X', 'O']:
+                    self.tmp0.append(self.x)
+            self.l0 = len(self.tmp0)
+            self.id0 = randrange(self.l0)
+            self.v0 = self.tmp0[self.id0]
+            return self.v0
+
+
+    def ReplayGame(self):
+        self.c = input('Do you still want to continue this game? Y/N : ').lower()
+        if self.c in ['y', 'yes', 'ya', 'ok']:
+            self.__init__()
+        else:
+            sys.exit()
