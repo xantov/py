@@ -27,7 +27,6 @@ class TTT:
         self.__scoreBoard.append(self.__diag2Score)
         # End Score board
         self.__start = randrange(10)
-        self.__freeBoard =[]
         self.__freeCell =[]
         self.__possibleLine =[]
         self.__isComputer = True
