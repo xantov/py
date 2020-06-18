@@ -176,10 +176,7 @@ class TTT:
                     # print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
                     self.ReplayGame()
                     break
-        # if self.countFree == 0:
-        #     print(colored('You all stucked!', 'red'))
-        #     self.ReplayGame()
-        #     break
+
 
     def ComputerAssisted(self):
         self.tmpTarget = []
