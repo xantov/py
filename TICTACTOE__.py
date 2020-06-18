@@ -88,6 +88,7 @@ class TTT:
 
 
     def EmptyCell(self):
+        self.__freeCell=[]
         for self.c in self.__mainBoard:
             if self.c not in ['X', 'O']:
                 self.__freeCell.append(self.c)
@@ -125,7 +126,6 @@ class TTT:
                 except ValueError:
                     self.UserError()
                     self.UserInput()
-
             if self.usermove not in self.__freeCell:
                 print('\nYour choose is currently occupied!')
                 print()
@@ -176,7 +176,10 @@ class TTT:
                     # print('Computer score: {}, Your score: {}'.format(self.cScore, -self.uScore))
                     self.ReplayGame()
                     break
-
+        # if self.countFree == 0:
+        #     print(colored('You all stucked!', 'red'))
+        #     self.ReplayGame()
+        #     break
 
     def ComputerAssisted(self):
         self.tmpTarget = []
